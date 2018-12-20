@@ -1,5 +1,29 @@
-<html>
-	<body>
-		<h3>Aí sim meu consagrado, primeira aplicação com Spring boot!</h3>
-	</body>
+<!DOCTYPE hmtl>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Gerenciador de Eventos</title>
+</head>
+<body>
+	<h1>Lista de Eventos</h1>
+	<h3>
+		<a href="/cadastrarEvento">Cadastrar evento</a>
+	</h3>
+
+	<!-- Recebe uma lista de eventos e faz um for each, para cada evento -->
+	<div th:each="evento : ${eventos}">
+		<div class="row">
+		<p><span th:text = "${evento.nome}"></span></p>
+		<p><span th:text = "${evento.local}"></span></p>
+		<p><span th:text = "${evento.data}"></span></p>
+		<p><span th:text = "${evento.horario}"></span></p>		
+		</div>
+
+
+	</div>
+
+
+
+
+</body>
 </html>
