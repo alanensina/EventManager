@@ -2,6 +2,7 @@ package com.eventoapp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,5 +36,16 @@ public class EventoController {
 		mv.addObject("eventos", eventos); // O primeiro parâmetro é o mesmo que se encontra entre a ${} no index.html, já o segundo parâmetro é a lista de eventos criada na linha de cima. Sendo assim a lista de eventos já consegue ser renderizada na view.		
 		return mv;
 	}
+	
+	@RequestMapping("/{codigo}") // Ao clicar sobre o evento, ele redirencionará automaticamente para os detalhes do evento
+	public ModelAndView detalhesEvento(@PathVariable("codigo") long codigo) {
+		Evento evento = er.findByCodigo(codigo);
+		ModelAndView mv = new ModelAndView("evento/detalhesEvento");
+		mv.addObject("evento", evento);		
+		return mv;
+	}
+	
+	
+	
 	
 }
