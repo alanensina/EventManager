@@ -19,7 +19,6 @@
 	<h1>Detalhes do Evento</h1>
 	<h3><a a href="/eventos" class="waves-effect waves-light btn"><i class="material-icons left">format_list_bulleted</i>Lista de eventos</a></h3>
 
-
 	<div th:each = "evento : ${evento}" class="container">
 		<div class="row">
 		<p>Nome: <span th:text="${evento.nome}"></span></p>
@@ -29,13 +28,24 @@
 		</div>
 	
 	
-	<form method="post">
-		Nome: <input type="text" value="" name="nomeConvidado"/>
-		CPF: <input type="text" value="" name="cpf"/>
-		<button class="waves-effect waves-light btn" type="submit">Adicionar</button>	
+		<form method="post">
+			Nome: <input type="text" value="" name="nomeConvidado"/>
+			CPF: <input type="text" value="" name="cpf"/>
+			<button class="waves-effect waves-light btn" type="submit">Adicionar</button>	
+		</form>	
+	</div>	
 	
-	</form>
+	<h5>Lista de Convidados:</h5>
+	<div class="container" th:each="convidado: ${convidados}">
 	
+		<div class="row">
+			<div class="input-field col s6">
+				<p><span th:text="${convidado.nomeConvidado}"></span></p>
+			</div>
+			<div class="input-field col s3">
+				<p><span th:text="${convidado.cpf}"></span></p>
+			</div>
+		</div>
 	</div>
 	
 
