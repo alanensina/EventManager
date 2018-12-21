@@ -62,6 +62,12 @@ public class EventoController {
 		return mv;
 	}
 	
+	@RequestMapping("/deletarEvento")
+	public String deletarEvento(long codigo) {
+		Evento evento = er.findByCodigo(codigo);
+		er.delete(evento);		
+		return "redirect:/eventos";
+	}	
 	
 	/*
 		Salvando o convidado na tabela do evento.
@@ -81,4 +87,16 @@ public class EventoController {
 		attributes.addFlashAttribute("mensagem", "Convidado adicionado com sucesso.");
 		return "redirect:/{codigo}";
 	}	
+
+	@RequestMapping("/deletarConvidado")
+	public String deletarConvidado(String cpf) {
+		Convidado convidado = cr.findByCpf(cpf);
+		cr.delete(convidado);
+
+		Evento evento = convidado.getEvento();
+		long codigoLong = evento.getCodigo();
+		String codigo = "" + codigoLong;
+		return "redirect:/"+codigo;
+	}
+	
 }
