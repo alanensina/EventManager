@@ -1,11 +1,15 @@
 package com.eventoapp.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eventoapp.models.Convidado;
 import com.eventoapp.models.Evento;
@@ -27,10 +31,14 @@ public class EventoController {
 	}
 	
 	@RequestMapping(value="/cadastrarEvento", method=RequestMethod.POST) // Será um POST pois essa requisição salvará os dados no banco de dados
-	public String form(Evento evento) {
+	public String form(@Valid Evento evento, BindingResult result, RedirectAttributes attributes) {
+		if(result.hasErrors()) {
+			attributes.addFlashAttribute("mensagem", "Dados inconsistentes, verifique os campos!");	
+			return "redirect:/cadastrarEvento";
+		}	
 		
 		er.save(evento); // Persiste os dados no banco de dados
-		
+		attributes.addFlashAttribute("mensagem", "Evento adicionado com sucesso!");	
 		return "redirect:/cadastrarEvento";
 	}
 	
@@ -54,12 +62,23 @@ public class EventoController {
 		return mv;
 	}
 	
-	// Salvando o convidado na tabela do evento
+	
+	/*
+		Salvando o convidado na tabela do evento.
+		Caso o usuário não tenha preenchido os campos corretamente, será exibida uma mensagem de erro.
+		Caso esteja tudo certo, será exibida uma mensagem de sucesso.
+	
+	*/
 	@RequestMapping(value="/{codigo}", method=RequestMethod.POST)
-	public String detalhesEventoPost(@PathVariable("codigo") long codigo, Convidado convidado) {
+	public String detalhesEventoPost(@PathVariable("codigo") long codigo, @Valid Convidado convidado, BindingResult result, RedirectAttributes attributes) {
+		if(result.hasErrors()) {
+		attributes.addFlashAttribute("mensagem", "Dados inconsistentes, verifique os campos!");	
+		return "redirect:/{codigo}";
+		}		
 		Evento evento = er.findByCodigo(codigo);
 		convidado.setEvento(evento);
-		cr.save(convidado);		
+		cr.save(convidado);	
+		attributes.addFlashAttribute("mensagem", "Convidado adicionado com sucesso.");
 		return "redirect:/{codigo}";
 	}	
 }
