@@ -21,7 +21,7 @@ To run this application, you need to have installed mySQL database and Java8.
 
 <b>6)</b> Run the application
 
-<b>7)</b> After initialized, acess:
+<b>7)</b> After initialized, access:
 <p><b>http://localhost:8080</b></p>
 
 
